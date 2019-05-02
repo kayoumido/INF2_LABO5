@@ -8,22 +8,23 @@ void stats(unsigned tab[], unsigned valMax, unsigned nbThrows) {
         *(tab + i) = 0;
     }
 
-    srandom(time(0));
+    srand(time(0));
 
     for (unsigned i = 0; i < nbThrows; ++i) {
 
-        unsigned val = random() % valMax;
+        unsigned val = rand() % valMax;
         *(tab + val) += 1;
     }
-
+    
 }
 
-void affichageTab(const unsigned *tab, unsigned taille) {
+void affichageTab(const unsigned *tab, unsigned taille, unsigned nbLances) {
     char buffer[12];
     for (unsigned i = 0; i < taille; ++i) {
+        unsigned tempPourcent = (*(tab + i) * 100) / nbLances;
         sprintf(buffer, "tableau [%d]", i);
-        printf("%-16s%-8d", buffer, *(tab + i));
-        for (size_t j = 0; j < *(tab + i); ++j) {
+        printf("%-16s%-8d", buffer, tempPourcent);
+        for (size_t j = 0; j < tempPourcent; ++j) {
             printf("=");
         }
         printf("\n");
@@ -51,7 +52,7 @@ int main() {
 
     stats(tab, nbElementsTab, nbLances);
 
-    affichageTab(tab, nbElementsTab);
+    affichageTab(tab, nbElementsTab, nbLances);
 
     //randomize(tab, sizeof(tab) / sizeof(unsigned));
     //affichagerTab(tab, sizeof(tab) / sizeof(unsigned));
