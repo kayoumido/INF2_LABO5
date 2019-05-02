@@ -19,7 +19,7 @@ void stats(unsigned tab[], unsigned valMax, unsigned nbThrows) {
 }
 
 void affichageTab(const unsigned *tab, unsigned taille, unsigned nbLances) {
-    char buffer[12];
+    char buffer[13];
     for (unsigned i = 0; i < taille; ++i) {
         unsigned tempPourcent = (*(tab + i) * 100) / nbLances;
         sprintf(buffer, "tableau [%d]", i);
@@ -45,7 +45,7 @@ int main() {
     scanf("%d", &nbElementsTab);
 
     *sizePtr = nbElementsTab;
-    unsigned tab[SIZE];
+    unsigned tab[nbElementsTab];
 
     printf("nbre de lances   [0..10000] : ");
     scanf("%d", &nbLances);
