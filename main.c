@@ -1,5 +1,21 @@
 #include <stdio.h>
 
+void affichageTab(const unsigned* tab, unsigned taille)
+{
+   char buffer[12];
+   for (unsigned i = 0; i < taille; ++i)
+   {
+      sprintf(buffer, "tableau [%d]", i);
+      printf("%-16s%-8d", buffer, *(tab+i));
+      for (size_t j = 0; j < *(tab+i); ++j)
+      {
+         printf("=");
+      }
+      printf("\n");
+   }
+}
+
+
 int main() {
    const int SIZE = 0;
    int* sizePtr = &SIZE;
