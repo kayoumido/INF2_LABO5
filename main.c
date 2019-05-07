@@ -1,6 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <stdbool.h>
+
+#define VIDER_BUFFER    while( getchar() != '\n')
 
 void stats(unsigned tab[], unsigned valMax, unsigned nbThrows) {
 
@@ -15,7 +18,7 @@ void stats(unsigned tab[], unsigned valMax, unsigned nbThrows) {
         unsigned val = rand() % valMax;
         *(tab + val) += 1;
     }
-    
+
 }
 
 void affichageTab(const unsigned *tab, unsigned taille, unsigned nbLances) {
@@ -31,36 +34,51 @@ void affichageTab(const unsigned *tab, unsigned taille, unsigned nbLances) {
     }
 }
 
+unsigned saisieUtilisateur(unsigned min, unsigned max, char *text) {
+    bool ok;
+    unsigned saisie;
+    const char *ERREUR = "/!\\ erreur de saisie\n";
+
+    do {
+
+        printf("%s [%d-%d] : ", text, min, max);
+        ok = scanf("%u", &saisie);
+        VIDER_BUFFER;
+
+    } while ((!ok || saisie < min || saisie > max)
+             && printf("%s", ERREUR));
+
+    return saisie;
+}
 
 int main() {
 
-    const int SIZE = 0;
-    int *sizePtr = &SIZE;
     unsigned nbElementsTab = 0,
              nbLances = 0;
+
     char refaire;
+    const unsigned MAX_ELEMENT = 100;
+    const unsigned MIN_ELEMENT = 0;
+    const unsigned MAX_LANCE = 1000;
+    const unsigned MIN_LANCE = 0;
 
-//    do {
-    printf("nbre d'elements    [0..100] : ");
-    scanf("%d", &nbElementsTab);
+    do {
 
-    *sizePtr = nbElementsTab;
-    unsigned tab[nbElementsTab];
+        nbElementsTab = saisieUtilisateur(MIN_ELEMENT, MAX_ELEMENT, "nbre d'elements ");
 
-    printf("nbre de lances   [0..10000] : ");
-    scanf("%d", &nbLances);
+        unsigned tab[nbElementsTab];
 
-    stats(tab, nbElementsTab, nbLances);
+        nbLances = saisieUtilisateur(MIN_LANCE, MAX_LANCE, "nbre de lances");
 
-    affichageTab(tab, nbElementsTab, nbLances);
+        stats(tab, nbElementsTab, nbLances);
 
-    //randomize(tab, sizeof(tab) / sizeof(unsigned));
-    //affichagerTab(tab, sizeof(tab) / sizeof(unsigned));
+        affichageTab(tab, nbElementsTab, nbLances);
 
-//        printf("voulez-vous recommencer [o:n] :");
-//        scanf("%c", refaire);
+        printf("voulez-vous recommencer [o:n] :");
+        scanf("%c", &refaire);
+        VIDER_BUFFER;
 
-//    } while (refaire != 'n');
+    } while (refaire != 'n');
 
     return 0;
 }
